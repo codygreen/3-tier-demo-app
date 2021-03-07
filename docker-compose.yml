@@ -26,7 +26,7 @@ services:
     build: ./spa
     container_name: spa
     ports:
-      - "8081:80"
+      - "8081:8081"
     links:
       - api
 
