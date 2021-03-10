@@ -8,16 +8,11 @@ import axios from 'axios';
 const productsRoutes = require("./routes/products");
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/vue-db', {useNewUrlParser: true, useUnifiedTopology: true});
-
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
 
 var services = [
   {
     name: "database",
-    url: process.env.MONGO_URL
+    url: process.env.MONGO_URL ?? "localhost"
   },
   {
     name: "inventory",
@@ -28,6 +23,12 @@ var services = [
 const getService = function(serviceName) {
   return services.find(service => service.name === serviceName);
 };
+
+mongoose.connect(`mongodb://${getService("database").url}/vue-db`, {useNewUrlParser: true, useUnifiedTopology: true});
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/images', express.static(path.join(__dirname, '../assets')));
 app.use('/api/products', productsRoutes);
