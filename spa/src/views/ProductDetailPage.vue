@@ -84,15 +84,20 @@ export default {
     if (!this.api_url || this.api_url == "null")
       this.$router.push("/stats?config=first");
     else {
-      const { data: product } = await axios.get(
-        `${this.api_url}/api/products/${this.$route.params.id}`
-      );
-      this.product = product;
+      try {
+        const { data: product } = await axios.get(
+          `${this.api_url}/api/products/${this.$route.params.id}`
+        );
 
-      const { data: cartItems } = await axios.get(
-        `${this.api_url}/api/users/12345/cart`
-      );
-      this.cartItems = cartItems;
+        this.product = product[0];
+
+        const { data: cartItems } = await axios.get(
+          `${this.api_url}/api/users/12345/cart`
+        );
+        this.cartItems = cartItems;
+      } catch (err) {
+        this.product = null;
+      }
     }
   },
 };
