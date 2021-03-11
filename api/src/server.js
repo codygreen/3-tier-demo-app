@@ -7,7 +7,8 @@ import axios from 'axios';
 
 import productsRoutes from './routes/products';
 import usersRoutes from './routes/users';
-import inventoryRoutes from './routes/inventory'
+import inventoryRoutes from './routes/inventory';
+import configRoutes from './routes/config';
 
 const mongoose = require('mongoose');
 
@@ -31,43 +32,14 @@ mongoose.connect(`mongodb://${getService("database").url}/vue-db`, {useNewUrlPar
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-app.set('inventoryUrl', getService("inventory").url); 
+app.set('services', services);
+app.set('inventoryUrl', getService("inventory").url);
 
 app.use('/images', express.static(path.join(__dirname, '../assets')));
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/inventory', inventoryRoutes);
-
-// get the remote services urls
-app.get('/api/config', async (req, res) => {
-  res.status(200).json(services);
-})
-
-app.get('/api/config/:serviceName', async (req, res) => {
-  const { serviceName } = req.params;
-  const service = getService(serviceName)
-  if(service)
-    res.status(200).json(service);
-  else 
-    res.status(404).json({"error": "service not found"});
-})
-
-app.post('/api/config/:serviceName', async (req, res) => {
-  const { serviceName } = req.params;
-  const { url } = req.body;
-
-  if(!url)
-    res.status(404).json({"error": "a service url is required"});
-
-  const service = getService(serviceName)
-
-  if(service) {
-    service.url = url;
-    res.status(200).json(service);
-  } else {
-    res.status(404).json({"error": "service not found"});
-  }
-});
+app.use('/api/config', configRoutes);
 
 app.get('/api/stats', async (req, res) => {
   res.status(200).json({});
