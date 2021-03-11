@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import productsRoutes from './routes/products';
 import usersRoutes from './routes/users';
+import inventoryRoutes from './routes/inventory'
 
 const mongoose = require('mongoose');
 
@@ -17,7 +18,7 @@ var services = [
   },
   {
     name: "inventory",
-    url: process.env.INVENTORY_URL
+    url: process.env.INVENTORY_URL ?? "http://localhost:8002"
   }
 ]
 
@@ -30,22 +31,12 @@ mongoose.connect(`mongodb://${getService("database").url}/vue-db`, {useNewUrlPar
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.set('inventoryUrl', getService("inventory").url); 
 
 app.use('/images', express.static(path.join(__dirname, '../assets')));
 app.use('/api/products', productsRoutes);
 app.use('/api/users', usersRoutes);
-
-app.get('/api/inventory', async (req, res) => {
-  try {
-    const { data: inventory } = await axios.get(
-    `${getService("inventory").url}/api/inventory`
-    );
-
-    res.status(200).json(inventory);
-  } catch(error) {
-    console.log(error)
-  }
-});
+app.use('/api/inventory', inventoryRoutes);
 
 // get the remote services urls
 app.get('/api/config', async (req, res) => {
