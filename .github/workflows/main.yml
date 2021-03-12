@@ -11,5 +11,5 @@ jobs:
         run: npm install
         working-directory: api
       - name: Run ESLint
-        run: eslint .
+        run: npx eslint .
         working-directory: api
