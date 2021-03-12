@@ -25,13 +25,16 @@ router.get("/:userId/cart", async (req, res) => {
     const cartItems = await getCartItems(req.params.userId);
     res.status(cartItems !== null ? 200 : 404).json(cartItems);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 
 router.post("/:userId/cart", async (req, res) => {
   try {
-    if (!req.body.productId) res.status(500).json("A productId is required");
+    if (!req.body.productId) {
+      res.status(500).json("A productId is required");
+      return;
+    }
     await Users.updateOne(
       { id: req.params.userId },
       { $addToSet: { cartItems: req.body.productId } }
@@ -40,7 +43,7 @@ router.post("/:userId/cart", async (req, res) => {
     const cartItems = await getCartItems(req.params.userId);
     res.status(cartItems !== null ? 200 : 404).json(cartItems);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 
@@ -54,7 +57,7 @@ router.delete("/:userId/cart/:productId", async (req, res) => {
     const cartItems = await getCartItems(req.params.userId);
     res.status(cartItems !== null ? 200 : 404).json(cartItems);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 
