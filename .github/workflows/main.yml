@@ -1,0 +1,15 @@
+name: demoapp workflows
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Modules
+      - run: npm
+        working-directory: api
+      - name: Run ESLint
+      - run: eslint .
+        working-directory: api
