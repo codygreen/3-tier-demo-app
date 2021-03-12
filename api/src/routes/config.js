@@ -1,9 +1,8 @@
 import express from 'express';
+
 const router = express.Router();
 
-const getService = (services, serviceName) => {
-    return services.find(service => service.name === serviceName)
-};
+const getService = (services, serviceName) => services.find(service => service.name === serviceName);
 
 router.get('/', (req, res) => {
     res.status(200).json(req.app.get('services'));

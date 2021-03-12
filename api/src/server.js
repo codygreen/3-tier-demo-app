@@ -10,7 +10,7 @@ import statsRoutes from './routes/stats';
 
 const mongoose = require('mongoose');
 
-var services = [
+const services = [
   {
     name: "database",
     url: process.env.MONGO_URL ?? "localhost"

@@ -1,0 +1,8 @@
+{
+    "eslint.workingDirectories": [
+        { "mode": "auto" }
+    ],
+    "prettier.singleQuote": true,
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+}

@@ -1,10 +1,9 @@
 import express from 'express';
 import axios from 'axios';
+
 const router = express.Router();
 
-const getService = (services, serviceName) => {
-    return services.find(service => service.name === serviceName)
-};
+const getService = (services, serviceName) => services.find(service => service.name === serviceName);
 
 router.get('/', async (req, res) => {
   try {

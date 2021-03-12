@@ -1,6 +1,7 @@
 import express from 'express';
 import Users from '../models/users';
 import Products from '../models/products';
+
 const router = express.Router();
 
 async function getCartItems (userId) {
@@ -28,9 +29,8 @@ router.get('/:userId/cart', async (req, res) => {
 });
 
 router.post('/:userId/cart', async (req, res) => {
-    if(!req.body.productId) return res.status(500).json("A productId is required");
-
     try {
+        if(!req.body.productId) res.status(500).json("A productId is required");
         await Users.updateOne({ id: req.params.userId },
             {$addToSet: { cartItems: req.body.productId }});
 
@@ -39,7 +39,7 @@ router.post('/:userId/cart', async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
 
 router.delete('/:userId/cart/:productId', async (req, res) => {
     try {

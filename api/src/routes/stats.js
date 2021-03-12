@@ -1,22 +1,21 @@
 import express from 'express';
-import Products from '../models/products';
 import axios from 'axios';
+import Products from '../models/products';
+
 const router = express.Router();
 
-const getService = (services, serviceName) => {
-    return services.find(service => service.name === serviceName)
-};
+const getService = (services, serviceName) => services.find(service => service.name === serviceName);
 
 const getMongoDbLatency = async () => {
-    const db_start = new Date();
+    const dbStart = new Date();
     await Products.find();
-    return new Date() - db_start;
+    return new Date() - dbStart;
 };
 
 const getUrlLatency = async (url) => {
-    const url_start = new Date();
-    const resp = await axios.get(url, {timeout:15})
-    return new Date() - url_start;
+    const urlStart = new Date();
+    await axios.get(url, {timeout:15})
+    return new Date() - urlStart;
 };
 
 router.get('/', (req, res) => {
@@ -29,7 +28,7 @@ router.get('/:serviceName', async (req, res) => {
     if(!url)
         res.status(404).json({});
     
-    var latency = null;
+    let latency = null;
     switch(req.params.serviceName) {
         case "database":
             latency = await getMongoDbLatency();

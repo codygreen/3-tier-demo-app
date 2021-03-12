@@ -1,5 +1,6 @@
 import express from 'express';
 import Products from '../models/products';
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
