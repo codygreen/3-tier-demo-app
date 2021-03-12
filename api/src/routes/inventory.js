@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     );
     res.status(200).json(inventory);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json(error.message);
   }
 });
 

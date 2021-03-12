@@ -16,7 +16,7 @@ async function getCartItems(userId) {
     );
     return cartItems;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.message);
   }
 }
 

@@ -16,7 +16,10 @@ router.get("/:serviceName", (req, res) => {
 });
 
 router.post("/:serviceName", (req, res) => {
-  if (!req.body.url) res.status(500).json("a service url is required");
+  if (!req.body.url) {
+    res.status(500).json("a service url is required");
+    return;
+  }
 
   const service = getService(req.app.get("services"), req.params.serviceName);
   if (!service) res.status(404).json({});

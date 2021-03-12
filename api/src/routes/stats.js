@@ -42,8 +42,8 @@ router.get("/:serviceName", async (req, res) => {
       host: url,
       latency,
     });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (err) {
+    res.status(500).json(err.message);
   }
 });
 
