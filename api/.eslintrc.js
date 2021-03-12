@@ -3,6 +3,7 @@ module.exports = {
     "extends": ["airbnb-base","prettier"],
     "plugins": ["prettier"],
     "rules": {
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "semi": 2
     }
 };

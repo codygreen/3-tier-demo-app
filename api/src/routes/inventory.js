@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     const { data: inventory } = await axios.get(`${inventoryUrl}/api/inventory`);
     res.status(200).json(inventory);
   } catch(error) {
-    console.log(error)
+    res.status(500).json(error)
   }
 });
 
