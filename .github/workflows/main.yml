@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Modules
-        run: npm
+        run: npm install
         working-directory: api
       - name: Run ESLint
         run: eslint .
